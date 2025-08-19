@@ -1,0 +1,7 @@
+[
+  {
+    "name": "auto",
+    "server": "auto.app:443",
+    "domains": ["a1.itvl.org"]
+  }
+]

@@ -1,0 +1,18 @@
+
+services:
+  nginx-proxy:
+    container_name: "nginx-proxy"
+    restart: "no"
+    image: "nginx-proxy:latest"
+    build:
+      context: ./
+      target: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true
