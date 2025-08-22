@@ -1,16 +1,18 @@
 
-import json
+import yaml
 from jinja2 import Environment
 
 env = Environment()
 
-apps = json.load(open("apps.json"))
+config = yaml.safe_load(open('config.yml', 'r'))
+print(config)
 
 stream_template = '''
 stream {
     {% for app in apps %}
     upstream {{ app.name }}-upstream {
-        server {{ app.server }};
+        set ${{ app.name }}_servers {{ app.server }};
+        server ${{ app.name }}_servers;
     }
     {% endfor %}
 
@@ -29,7 +31,7 @@ stream {
 '''
 
 with open('./stream.conf', 'w') as stream:
-    stream.write(env.from_string(stream_template).render(apps=apps))
+    stream.write(env.from_string(stream_template).render(apps=config['apps']))
 
 
 redirect_template = '''
@@ -38,11 +40,11 @@ redirect_template = '''
 server {
     listen 80;
     server_name {{ domain }};
-    return 301 https://{{ app.domain }}$request_uri;
+    return 301 https://{{ domain }}$request_uri;
 }
 {% endfor %}
 {% endfor %}
 '''
 
 with open('./redirects.conf', 'w') as stream:
-    stream.write(env.from_string(redirect_template).render(apps=apps))
+    stream.write(env.from_string(redirect_template).render(apps=config['apps']))

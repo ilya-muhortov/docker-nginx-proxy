@@ -1,0 +1,10 @@
+
+apps:
+  - name: auto
+    server: auto.app:443
+    domains:
+      - a1.itvl.org
+  - name: auto2
+    server: auto2.app:443
+    domains:
+      - a1.itvl.org

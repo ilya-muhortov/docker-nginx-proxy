@@ -1,10 +1,10 @@
 FROM python:3.12 AS python
 
-RUN pip install --no-cache-dir Jinja2
+RUN pip install --no-cache-dir Jinja2 PyYAML
 
 WORKDIR /data
 
-ADD apps.json generator.py ./
+ADD config.yml generator.py ./
 RUN python generator.py
 
 
