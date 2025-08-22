@@ -11,8 +11,7 @@ stream_template = '''
 stream {
     {% for app in apps %}
     upstream {{ app.name }}-upstream {
-        set ${{ app.name }}_servers {{ app.server }};
-        server ${{ app.name }}_servers;
+        server {{ app.server }};
     }
     {% endfor %}
 
